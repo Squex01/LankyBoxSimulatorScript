@@ -73,6 +73,22 @@ e:Button("Unequip Pets",function()
     end
 end)
 
+e:Button("Dupe Pets",function()
+    for i,v in pairs(game:GetService("Players").LocalPlayer.PlayerData.Pets:GetChildren()) do
+        spawn(function()
+            game:GetService("ReplicatedStorage").Events.EquipPet:InvokeServer(v,false)
+        end)
+        spawn(function()
+            game:GetService("ReplicatedStorage").Events.EquipPet:InvokeServer(v,true)
+        end)
+        spawn(function()
+            game:GetService("ReplicatedStorage").Events.EquipPet:InvokeServer(v,false)
+        end)
+        spawn(function()
+            game:GetService("ReplicatedStorage").Events.EquipPet:InvokeServer(v,true)
+        end)
+    end
+end)
 --Credits
 u:Button("Relax",function()
     setclipboard("Relax")
@@ -130,12 +146,9 @@ while wait() do
                 end
                 spawn(function()
                     if AntiAfk == true then
-                        local vu = game:GetService("VirtualUser")
-                        game:GetService("Players").LocalPlayer.Idled:connect(function()
-                            vu:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
-                            wait(1)
-                            vu:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
-                        end)
+                        local bb=game:service'VirtualUser'
+                        bb:CaptureController()
+                        bb:ClickButton2(Vector2.new())
                     end
                 end)
                 spawn(function()
@@ -149,7 +162,7 @@ while wait() do
                         0
                         )
                         local t = game.TweenService:Create(game.Players.LocalPlayer.Character.PrimaryPart, tweenInfo, {CFrame = CFrame.new(
-                        game:GetService("Workspace").Monsters[SelectedMonster.Name].HumanoidRootPart.CFrame.Position + Vector3.new(0,10,0)
+                        game:GetService("Workspace").Monsters[SelectedMonster].HumanoidRootPart.CFrame.Position + Vector3.new(0,10,0)
                         )})
                         t:Play()
                     end
@@ -165,15 +178,17 @@ while wait() do
         end
     end)
     
-    if AutoTpMonster == true then
-        local tweenInfo = TweenInfo.new(
-        0
-        )
-        local t = game.TweenService:Create(game.Players.LocalPlayer.Character.PrimaryPart, tweenInfo, {CFrame = CFrame.new(
-        game:GetService("Workspace").Monsters[SelectedMonster].HumanoidRootPart.CFrame.Position + Vector3.new(0,10,0)
-        )})
-        t:Play()
-    end
+    spawn(function()
+        if AutoTpMonster == true then
+            local tweenInfo = TweenInfo.new(
+            0
+            )
+            local t = game.TweenService:Create(game.Players.LocalPlayer.Character.PrimaryPart, tweenInfo, {CFrame = CFrame.new(
+            game:GetService("Workspace").Monsters[SelectedMonster].HumanoidRootPart.CFrame.Position + Vector3.new(0,10,0)
+            )})
+            t:Play()
+        end
+    end)
     
     spawn(function()
         if autosell == true then
@@ -197,12 +212,9 @@ while wait() do
     
     spawn(function()
         if AntiAfk == true then
-            local vu = game:GetService("VirtualUser")
-            game:GetService("Players").LocalPlayer.Idled:connect(function()
-                vu:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
-                wait(1)
-                vu:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
-            end)
+            local bb=game:service'VirtualUser'
+            bb:CaptureController()
+            bb:ClickButton2(Vector2.new())
         end
     end)
 end
